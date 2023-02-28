@@ -117,7 +117,7 @@ class bna {
             e.style.clipPath = `polygon(${ref.b_obj.left}% 0, ${ref.b_obj.left}% 0, ${ref.b_obj.left}% 100%, ${ref.b_obj.left}% 100% )`;
         })
         ref.anchorArr.forEach((e)=>{
-            e.style.left=`${this.b_obj.left-((this.a_obj.right+this.a_obj.left)/2)}%`;
+            e.style.left=`${ref.b_obj.left-((ref.a_obj.right+ref.a_obj.left)/2)}%`;
         })
         gsap.set('.bnaAnchorHS',{x:0});
        
