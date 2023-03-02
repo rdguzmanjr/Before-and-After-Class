@@ -6,11 +6,11 @@ usage:
    var anchorImgBounds={top:30.7,right:54.0,bottom:63.4,left:46.0}; // anchor bounds
    //You can copy bounds from here: https://get-png-transform-origin.onrender.com/
 
-        var bnaEnties={card1:['.card-1','before1.png','after1.png'],  // container, before image, after image
+        var bnaEntries={card1:['.card-1','before1.png','after1.png'],  // container, before image, after image
                        //card2:['.card-2','before2.png','after2.png'],
                        //card3:['.card-3','before3.png','after3.png'],   
                        }
-        var bna1=new bna(bnaEnties,'.anchorHScontainer','anchor.png',bnaImgBounds,anchorImgBounds); // container for the anchor hotspot and anchor image
+        var bna1=new bna(bnaEntries,'.anchorHScontainer','anchor.png',bnaImgBounds,anchorImgBounds); // container for the anchor hotspot and anchor image
         
 */  
 
