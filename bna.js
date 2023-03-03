@@ -14,8 +14,6 @@ usage:
         
 */  
 
-
-
 class bna {
     constructor(config_obj,anchor_cont,anchor_img,b_obj,a_obj){
             this.config_obj=config_obj;
@@ -41,21 +39,20 @@ class bna {
         anchorHS.style.width=`${this.a_obj.right-this.a_obj.left}%`;
         anchorHS.style.height=`${this.a_obj.bottom-this.a_obj.top}%`;
         anchorHS.style.top=`${this.a_obj.top}%`;
-        anchorHS.style.left=`${this.b_obj.left}%`;
+        anchorHS.style.left=`${this.b_obj.left-4}%`;
         anchorHS.style.pointerEvents = "all";
         anchorHS.className="bnaAnchorHS";
         this.anchor_cont.appendChild(anchorHS);
         //create bounds
         let bnaBounds=document.createElement('div');
         // bnaBounds.style.backgroundColor='#ff000060';
-        bnaBounds.style.width=`${this.b_obj.right-this.b_obj.left}%`;
+        bnaBounds.style.width=`${(this.b_obj.right-this.b_obj.left)+8}%`;
         bnaBounds.style.height=`${this.b_obj.bottom-this.b_obj.top}%`;
         bnaBounds.style.top=`${this.b_obj.top}%`;
-        bnaBounds.style.left=`${this.b_obj.left}%`;
+        bnaBounds.style.left=`${this.b_obj.left-4}%`;
         this.anchor_cont.appendChild(bnaBounds);
         
         //create
-        
         this.elemArr.forEach((e)=>{
            this.anchorArr.push(e.anchorImage);
            this.afterArr.push(e.afterImage);
@@ -119,7 +116,6 @@ class bna {
             e.style.left=`${ref.b_obj.left-((ref.a_obj.right+ref.a_obj.left)/2)}%`;
         })
         gsap.set('.bnaAnchorHS',{x:0});
-       
     }
     syncUp (data) {
         console.log ( data );
