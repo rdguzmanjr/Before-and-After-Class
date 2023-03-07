@@ -1,7 +1,8 @@
 /*
 
 usage:
-      
+       
+  
    var bnaImgBounds={top:30.8,right:88.5,bottom:63.4,left:11.5}; // image bounds
    var anchorImgBounds={top:30.7,right:54.0,bottom:63.4,left:46.0}; // anchor bounds
    //You can copy bounds from here: https://get-png-transform-origin.onrender.com/
@@ -13,9 +14,8 @@ usage:
         var bna1=new bna(bnaEntries,'.anchorHScontainer','anchor.png',bnaImgBounds,anchorImgBounds); // container for the anchor hotspot and anchor image
         
 */  
-
 class bna {
-    constructor(config_obj,anchor_cont,anchor_img,b_obj,a_obj){
+    constructor(config_obj,anchor_cont,anchor_img,b_obj,a_obj,inFlex=true){
             this.config_obj=config_obj;
             this.anchor_cont=document.querySelector(anchor_cont);
             this.anchor_img=anchor_img;
@@ -24,10 +24,15 @@ class bna {
             this.elemArr=[];
             this.anchorArr=[];
             this.afterArr=[];
+            this.inFlex=inFlex;
             this.init();
         }
     
     init(){
+        if(!this.inFlex){
+            this.b_obj=this.unflex(this.b_obj);
+            this.a_obj=this.unflex(this.a_obj);
+        }
         //createElement
         Object.entries(this.config_obj).forEach(entry => {
             const [key, value] = entry;
@@ -35,23 +40,24 @@ class bna {
         });
         //create anchor-hs
         let anchorHS=document.createElement('div');
-        //anchorHS.style.backgroundColor='#ff000080';
-        anchorHS.style.width=`${this.a_obj.right-this.a_obj.left}%`;
+        anchorHS.style.backgroundColor='#ff000080';
+        anchorHS.style.width=`${this.a_obj.right-this.a_obj.left+2}%`;
         anchorHS.style.height=`${this.a_obj.bottom-this.a_obj.top}%`;
         anchorHS.style.top=`${this.a_obj.top}%`;
         anchorHS.style.left=`${this.b_obj.left-4}%`;
         anchorHS.style.pointerEvents = "all";
-        anchorHS.className="bnaAnchorHS";
+        anchorHS.classList.add('.bnaAnchorHS'); 
         this.anchor_cont.appendChild(anchorHS);
         //create bounds
         let bnaBounds=document.createElement('div');
-        // bnaBounds.style.backgroundColor='#ff000060';
-        bnaBounds.style.width=`${(this.b_obj.right-this.b_obj.left)+8}%`;
+        //bnaBounds.classList.add('.flex-items'); 
+         bnaBounds.style.backgroundColor='#ff000060';
+        bnaBounds.style.width=`${((this.b_obj.right-this.b_obj.left)+8)}%`;
         bnaBounds.style.height=`${this.b_obj.bottom-this.b_obj.top}%`;
         bnaBounds.style.top=`${this.b_obj.top}%`;
         bnaBounds.style.left=`${this.b_obj.left-4}%`;
         this.anchor_cont.appendChild(bnaBounds);
-        
+       
         //create
         this.elemArr.forEach((e)=>{
            this.anchorArr.push(e.anchorImage);
@@ -82,10 +88,8 @@ class bna {
                 this.syncUp ({ track : 'Knob Drag End'});
             }
         });
-        
         return dragObj;
     }
-    
     createDivElement(container,img_before,img_after,img_anchor){
         const cont_i=document.querySelector(container);
         const bf_el=this.createDiv(img_before);
@@ -116,6 +120,25 @@ class bna {
             e.style.left=`${ref.b_obj.left-((ref.a_obj.right+ref.a_obj.left)/2)}%`;
         })
         gsap.set('.bnaAnchorHS',{x:0});
+    }
+     unflex(elem){ 
+        let _left= elem.left;
+        let _top = elem.top;
+        let _right = elem.right;
+        let _bottom =elem.bottom;
+        let flexw=gsap.getProperty('.flex', "width");
+        let contw=gsap.getProperty('.container', "width");
+        let flexh=gsap.getProperty('.flex', "height");
+        let conth=gsap.getProperty('.container', "height");
+        if(contw>flexw){
+        _left = ((flexw * _left/ 100 + (contw - flexw) / 2) / contw)*100;
+        _right= ((flexw * _right/ 100 + (contw - flexw) / 2) / contw)*100;
+        }
+        if(conth>flexh){
+        _top = ((flexh * _top / 100 + (conth - flexh) / 2) / conth)*100;
+        _bottom=((flexh * _bottom / 100 + (conth - flexh) / 2) / conth)*100;
+        }
+        return {left:_left,right:_right,top:_top,bottom:_bottom}
     }
     syncUp (data) {
         console.log ( data );
